@@ -9,8 +9,8 @@ public class Enemy : MonoBehaviour
 {
     public enum EnemyTypes
     {
-        Enemy1,
-        Enemy2
+        EnemySmall,
+        EnemyGiant
     }
 
     [SerializeField] private Transform player;
@@ -25,7 +25,17 @@ public class Enemy : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Chase()
+    void Chase1()
+    {
+        var l_diffVector= player.position-transform.position;
+        if(distanceMaxToChase<l_diffVector.magnitude) 
+        {
+            speed =5f;
+            Quaternion rotation = Quaternion.LookRotation(l_diffVector.normalized);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * turningSpeed);
+            Move(l_diffVector.normalized);
+        }
+    }    void Chase2()
     {
         var l_diffVector= player.position-transform.position;
         if(distanceMaxToChase<l_diffVector.magnitude) 
@@ -36,14 +46,14 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void LookAt()
-    {
-        var l_diffVector = player.position - transform.position;
+    //void LookAt()
+    //{
+    //    var l_diffVector = player.position - transform.position;
 
-            Quaternion rotation = Quaternion.LookRotation(l_diffVector.normalized);
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * turningSpeed);
+    //        Quaternion rotation = Quaternion.LookRotation(l_diffVector.normalized);
+    //        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * turningSpeed);
         
-    }
+    //}
 
 
     // Update is called once per frame
@@ -52,11 +62,11 @@ public class Enemy : MonoBehaviour
        
         switch (enemyType)
             {
-                case EnemyTypes.Enemy1:
-                    Chase();
+                case EnemyTypes.EnemySmall:
+                    Chase1();
                     break;
-                case EnemyTypes.Enemy2:
-                    LookAt();
+                case EnemyTypes.EnemyGiant:
+                    Chase2();
                     break;
 
             }

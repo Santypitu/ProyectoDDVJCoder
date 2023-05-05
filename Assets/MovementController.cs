@@ -22,9 +22,9 @@ public class MovementController : MonoBehaviour
     private bool isBlocking = false;
     private float attackDuration = 0.05f;
     private float attackTimer = 0f;
-    private bool isRunning = false;
+    //private bool isRunning = false;
 
-    //hola
+    
     void Start()
     {
         player = GetComponent<CharacterController>();

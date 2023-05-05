@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Canon : MonoBehaviour
-{
-    [SerializeField] private Bullet m_bulletShoot;
+{    
+
+    [SerializeField] private Bullet m_bombShoot;
     [SerializeField] private Transform m_shootingPoint;
     [SerializeField] private Transform m_bulletParent;
     [SerializeField] private KeyCode shootKeyCode;
+
+
 
 
     private void Update()
@@ -20,7 +23,8 @@ public class Canon : MonoBehaviour
 
     private void Shoot()
     {
-        Instantiate(m_bulletShoot, m_shootingPoint.position, m_shootingPoint.rotation, m_bulletParent);
+        Instantiate(m_bombShoot, m_shootingPoint.position, m_shootingPoint.rotation, m_bulletParent);
         Debug.Log("Shoot");
     }
+
 }
