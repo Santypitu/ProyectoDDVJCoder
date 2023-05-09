@@ -18,7 +18,23 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float turningSpeed;
     [SerializeField] private EnemyTypes enemyType;
+    [SerializeField] private float health;
+    [SerializeField] private int monsterScore;
+    private void Awake()
+    {
+        switch (enemyType)
+        {
+            case EnemyTypes.EnemySmall:
+                health = 20;
+                monsterScore = 1;
+                break;
+            case EnemyTypes.EnemyGiant:
+                health = 100;
+                monsterScore = 5;
+                break;
 
+        }
+    }
     void Move(Vector3 direction) 
     {
         transform.position += direction * (speed * Time.deltaTime);
@@ -46,13 +62,38 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "EnemyWeapon")
+        {
+            Debug.Log("Colisiono el arma con el jugador");
+            health -= 10;
+            if (health <= 0)
+            {
+                Die();
+            }
+        }
+    }
+
+    public void getDamage(float p_damage)
+    {
+        health -= p_damage;
+    }
+
+    void Die()
+    {
+        Animator animator = GetComponent<Animator>();
+        GameManager.Instance.AddScore(monsterScore);
+        animator.SetTrigger("Die");
+    }
+
     //void LookAt()
     //{
     //    var l_diffVector = player.position - transform.position;
 
     //        Quaternion rotation = Quaternion.LookRotation(l_diffVector.normalized);
     //        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * turningSpeed);
-        
+
     //}
 
 
